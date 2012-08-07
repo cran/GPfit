@@ -1,0 +1,71 @@
+\name{GP_deviance}
+\alias{GP_deviance}
+\title{Computes the Deviance of a GP model}
+\description{Evaluates the deviance (negative 2*log-likelihood),  
+as defined in Ranjan et al. (2011), but with the reparameterized
+Gaussian correlation as discussed in \code{\link{corr_matrix}}.
+}
+\usage{GP_deviance(beta, X, Y, nug_thres = 20)}
+\arguments{
+  \item{beta}{a (\code{d x 1}) vector of correlation hyper-parameters, as described in 
+\code{\link{corr_matrix}}}
+  \item{X}{the (\code{n x d}) design matrix}
+  \item{Y}{the (\code{n x 1}) vector of simulator outputs}
+  \item{nug_thres}{A parameter used in computing the nugget. See \code{\link{GP_fit}}.}
+}
+\value{
+the deviance (negative 2*log-likelihood)
+}
+\references{Ranjan, P., Haynes, R., and Karsten, R. (2011). A Computationally Stable 
+Approach to Gaussian Process Interpolation of Deterministic Computer Simulation Data, 
+Technometrics, 53(4), 366 - 378.}
+\keyword{Deviance}
+\keyword{Log Likelihood}
+\author{Blake MacDonald, Hugh Chipman, Pritam Ranjan}
+\seealso{
+\code{\link{corr_matrix}} for computing the correlation matrix; \cr
+\code{\link{GP_fit}} for estimating the parameters of the GP model.
+}
+\examples{
+## 1D Example 1
+n = 5; d = 1;
+computer_simulator <- function(x){
+x = 2*x+0.5;
+y = sin(10*pi*x)/(2*x) + (x-1)^4;
+return(y)
+}
+set.seed(3);
+x = maximinLHS(n,d);
+y = computer_simulator(x);
+beta =  rnorm(1);
+GP_deviance(beta,x,y);
+
+## 1D Example 2
+n = 7; d = 1;
+computer_simulator <- function(x) {
+y = log(x+0.1)+sin(5*pi*x);
+return(y)
+}
+set.seed(1);
+x = maximinLHS(n,d);
+y = computer_simulator(x);
+beta = rnorm(1);
+GP_deviance(beta,x,y);
+
+## 2D Example: GoldPrice Function
+computer_simulator <- function(x) {
+x1=4*x[,1] - 2; x2=4*x[,2] - 2;
+t1 = 1 + (x1 + x2 + 1)^2*(19 - 14*x1 + 3*x1^2 - 14*x2 + 
+6*x1*x2 + 3*x2^2);
+t2 = 30 + (2*x1 -3*x2)^2*(18 - 32*x1 + 12*x1^2 + 48*x2 - 
+36*x1*x2 + 27*x2^2);
+y = t1*t2;
+return(y)
+}
+n = 10; d = 2;
+set.seed(1);
+x = maximinLHS(n,d); 
+y = computer_simulator(x);
+beta = rnorm(2);
+GP_deviance(beta,x,y);
+}

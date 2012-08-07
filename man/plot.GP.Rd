@@ -1,0 +1,98 @@
+\name{plot.GP}
+\alias{plot.GP}
+%- Also NEED an '\alias' for EACH other topic documented here.
+\title{Plotting GP model fits}
+\description{Plots the predicted response and mean squared error (MSE) surfaces for
+simulators with 1 and 2 dimensional inputs (i.e. d = 1,2).}
+\usage{
+\method{plot}{GP}(x, range = c(0, 1), resolution = 50, 
+colors = c('black', 'blue', 'red'), line_type = c(1, 1), 
+pch = 1, cex = 2, surf_check = FALSE, 
+response = TRUE, \dots)
+}
+%- maybe also 'usage' for other objects documented here.
+\arguments{
+  \item{x}{a class \code{GP} object estimated by \code{GP_fit}}
+  \item{range}{the input range for plotting} 
+  \item{resolution}{the number of points along a coordinate in the specified \code{range}}
+\cr
+For 1 Dimensional Plotting 
+\cr
+  \item{colors}{a vector of length 3 assigning \code{colors[1]} to training design points, 
+\code{colors[2]} to model predictions, and \code{colors[3]} to the error bounds}
+  \item{line_type}{a vector of length 2 assigning \code{line_type[1]} to model predictions, 
+and \code{line_type[2]} to the error bounds}
+  \item{pch}{a parameter defining the plotting character for 
+the training design points, see `pch' for possible options in \code{\link{par}}}
+  \item{cex}{a parameter defining the size of the \code{pch} used 
+for plotting the training design points, see `cex' for possible options in \code{\link{par}}}
+\cr 
+For 2 Dimensional Plotting 
+\cr
+  \item{surf_check}{logical, switch between 3d surface and 2d level/contour plotting, 
+the default of \code{FALSE} implies level/contour plotting}
+  \item{response}{logical, switch between predicted response and error (MSE) plots, the default 
+of \code{TRUE} for plotting the response surface}
+  \item{\dots}{additional arguments from \code{\link{wireframe}} or \code{\link{levelplot}}}
+}
+\references{Ranjan, P., Haynes, R., and Karsten, R. (2011). A Computationally Stable 
+Approach to Gaussian Process Interpolation of Deterministic Computer Simulation Data, 
+Technometrics, 53(4), 366 - 378.}
+\author{Blake MacDonald, Hugh Chipman, Pritam Ranjan}
+\seealso{
+\code{\link{GP_fit}} for estimating the parameters of the GP model; \cr
+\code{\link{predict.GP}} for predicting the response and error surfaces; \cr
+\code{\link{par}} for additional plotting characters and line types for 1 dimensional plots; \cr
+\code{\link{wireframe}} and \code{\link{levelplot}} for additional plotting settings in 2 dimensions.
+}
+\examples{
+## 1D Example 1
+n = 5; d = 1; 
+computer_simulator <- function(x){
+x = 2*x+0.5;
+y = sin(10*pi*x)/(2*x) + (x-1)^4;
+return(y)
+}
+set.seed(3);
+x = maximinLHS(n,d);
+y = computer_simulator(x);
+GPmodel = GP_fit(x,y);
+plot.GP(GPmodel)
+
+## 1D Example 2
+n = 7; d = 1;
+computer_simulator <- function(x) {
+y = log(x+0.1)+sin(5*pi*x);
+return(y)
+}
+set.seed(1);
+x = maximinLHS(n,d);
+y = computer_simulator(x);
+GPmodel = GP_fit(x,y);
+## Plotting with changes from the default line type and characters
+plot.GP(GPmodel, resolution = 100, line_type = c(6,2), pch = 5)
+
+## 2D Example: GoldPrice Function
+computer_simulator <- function(x) {
+x1=4*x[,1] - 2; x2=4*x[,2] - 2;
+t1 = 1 + (x1 + x2 + 1)^2*(19 - 14*x1 + 3*x1^2 - 14*x2 + 
+6*x1*x2 + 3*x2^2);
+t2 = 30 + (2*x1 -3*x2)^2*(18 - 32*x1 + 12*x1^2 + 48*x2 - 
+36*x1*x2 + 27*x2^2);
+y = t1*t2;
+return(y)
+}
+n = 30; d = 2;
+set.seed(1);
+x = maximinLHS(n,d); 
+y = computer_simulator(x);
+GPmodel = GP_fit(x,y);
+## Basic level plot
+plot.GP(GPmodel)
+## Adding Contours and increasing the number of levels
+plot.GP(GPmodel, contour = TRUE, cuts = 50, pretty = TRUE)
+## Plotting the Response Surface
+plot.GP(GPmodel, surf_check = TRUE)
+## Plotting the Error Surface with color
+plot.GP(GPmodel, surf_check = TRUE, response = FALSE, shade = TRUE)
+}

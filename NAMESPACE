@@ -1,0 +1,1 @@
+export(GP_fit,GP_deviance,predict.GP,corr_matrix,plot.GP,print.GP,summary.GP)
