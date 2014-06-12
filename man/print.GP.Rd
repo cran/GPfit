@@ -1,7 +1,7 @@
 \name{print.GP}
 \alias{print.GP}
 \title{GP model fit Summary}
-\description{Prints a summary of a class \code{GP} object estimated 
+\description{Prints the summary of a class \code{GP} object estimated 
 by \code{GP_fit}}
 \usage{
 \method{print}{GP}(x, \dots)
@@ -10,7 +10,7 @@ by \code{GP_fit}}
   \item{x}{a class \code{GP} object estimated by \code{GP_fit}}
   \item{\dots}{for compatibility with generic method \code{\link{print}}}
 }
-\details{  Prints a summary of the class \code{GP} object. It returns the number
+\details{  Prints the summary of the class \code{GP} object. It returns the number
 of observations, input dimension, parameter estimates of the GP model,
 lower bound on the nugget, and the nugget threshold parameter 
 (described in \code{\link{GP_fit}}).
@@ -28,10 +28,12 @@ y = sin(10*pi*x)/(2*x) + (x-1)^4;
 return(y)
 }
 set.seed(3);
+library(lhs);
 x = maximinLHS(n,d);
 y = computer_simulator(x);
 GPmodel = GP_fit(x,y);
 print(GPmodel)
+
 
 ## 2D Example: GoldPrice Function
 computer_simulator <- function(x) {
@@ -45,6 +47,7 @@ return(y)
 }
 n = 10; d = 2;
 set.seed(1);
+library(lhs);
 x = maximinLHS(n,d);
 y = computer_simulator(x);
 GPmodel = GP_fit(x,y);

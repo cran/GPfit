@@ -7,21 +7,16 @@ Gaussian Process Modeling
 }
 \description{
 A computationally stable approach of fitting a Gaussian process (GP) 
-model to a deterministic simulator.
+model to simulator outputs. It is assumed that the input variables are
+continuous and the outputs are obtained from scalar valued deterministic
+computer simulator.
 }
 \details{
-\tabular{ll}{
-Package: \tab GPfit\cr
-Type: \tab Package\cr
-Version: \tab 0.1-0\cr
-Date: \tab 2012-08-07\cr
-Depends: \tab lhs, lattice\cr
-License: \tab GPL-2\cr
-}
-This package implements a slightly modified version of the GP model proposed 
-in Ranjan et al. (2011). A new parameterization of the Gaussian correlation 
+This package implements a slightly modified version of the regularized GP model proposed 
+in Ranjan et al. (2011). For details see MacDonald et al. (2013). A new parameterization of the Gaussian correlation 
 is used for the ease of optimization. This package uses a multi-start gradient
 based search algorithm for optimizing the deviance (negative 2*log-likelihood).\cr
+
 For a complete list of functions, use \code{library(help="GPfit")}. \cr
 The main function for fitting the GP model is \code{\link{GP_fit}}.
 }
@@ -30,7 +25,13 @@ Blake MacDoanld, Hugh Chipman, Pritam Ranjan \cr
 Maintainer: Hugh Chipman <hugh.chipman@acadiau.ca>
 }
 \references{
+MacDonald, K.B., Ranjan, P. and Chipman, H. (2013). GPfit: An R Package for Gaussian 
+Process Model Fitting using a New Optimization Algorithm (arXiv:1305.0759).\cr
+
 Ranjan, P., Haynes, R., and Karsten, R. (2011). A Computationally Stable 
 Approach to Gaussian Process Interpolation of Deterministic Computer Simulation Data, 
-Technometrics, 53(4), 366 - 378.
+Technometrics, 53(4), 366 - 378. \cr
+
+Santner, T.J., Williams, B., and Notz, W. (2003), The design and analysis of 
+computer experiments, Springer Verlag, New York. \cr
 }

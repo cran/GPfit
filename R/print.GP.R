@@ -13,7 +13,11 @@ cat(nrow(x$X))
 cat("\nInput Dimensions: d = ")
 cat(ncol(x$X))
 cat("\n\n")
-cat("Correlation: Exponential (power = ", corr$power,")",sep="")
+if (corr$type == "exponential"){
+	cat("Correlation: Exponential (power = ", corr$power, ")",sep="")
+} else {
+	cat("Correlation: Matern (nu = ", corr$nu, ")",sep="")
+}
 cat("\n")
 cat("Correlation Parameters: \n")
 beta_val = data.frame(beta_hat = t(x$beta), row.names = '[1]')

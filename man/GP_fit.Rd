@@ -6,43 +6,54 @@
 returns the parameter estimates. The optimization routine assumes that the
 inputs are scaled in \eqn{[0,1]^d}{[0,1]^d}.}
 \usage{GP_fit(X, Y, control = c(200*d, 80*d, 2*d), nug_thres = 20, 
-trace = FALSE, maxit = 100)}
+trace = FALSE,maxit = 100,corr = list(type="exponential",power=1.95),
+optim_start = NULL)}
 \arguments{
   \item{X}{the (\code{n x d}) design matrix}
   \item{Y}{the (\code{n x 1}) vector of simulator outputs.}
-  \item{control}{A vector of parameters used in the search for optimal
- beta. See `Details'.}
-  \item{nug_thres}{A parameter used in computing the nugget. See `Details'.}
-  \item{trace}{logical, if \code{TRUE}, will provide information on the optim runs}
+  \item{control}{a vector of parameters used in the search for optimal beta. See `Details'.}
+  \item{nug_thres}{a parameter used in computing the nugget. See `Details'.}
+  \item{trace}{logical, if \code{TRUE}, will provide information on the \code{\link{optim}} runs}
   \item{maxit}{the maximum number of iterations within \code{\link{optim}}, defaults to 100}
+  \item{corr}{a list of parameters for the specifing the correlation to be used. See 
+\code{\link{corr_matrix}}.}
+  \item{optim_start}{a matrix of potentially likely starting values in beta space for the 
+\code{\link{optim}} runs, i.e., prior guess of \eqn{\beta=(\beta_1,...,\beta_d)}}
 }
+
 \details{
 This function fits the following GP model, \eqn{y(x) = \mu + Z(x)}{y(x) = \mu + Z(x)}, \eqn{x \in [0,1]^{d}}{x in [0,1]^d},
 where \eqn{Z(x)}{Z(x)} is a GP with \eqn{E(Z(x_i)) = 0}{E(Z(x_i)) = 0}, \eqn{Var(Z(x_i)) = \sigma^2}{Var(Z(x_i)) = \sigma^2}, 
 and \eqn{Cov(Z(x_i),Z(x_j)) = \sigma^2R_{ij}}{Cov(Z(x_i),Z(x_j)) = \sigma^2*R_{ij}}. For computational
-stability R is replaced with \eqn{R_{\delta_{lb}} = R + \delta_{lb}I}{R_{\delta_{lb}} = R + \delta_{lb}I} 
-where \eqn{\delta_{lb}}{\delta_{lb}} is described in Ranjan et al. (2011).\cr
+stability \eqn{R^{-1}} is replaced with \eqn{R_{\delta_{lb}}^{-1}}, where \eqn{R_{\delta{lb}} = R + \delta_{lb}I} 
+and \eqn{\delta_{lb}} is the nugget parameter described in Ranjan et al. (2011).
 
 The parameter estimates are obtained by minimizing the deviance using a multi-start gradient based 
 search (L-BFGS-B) algorithm. The starting points are selected using the k-means clustering algorithm 
 on a large maximin LHD using -2*log(L) as the objective function. The \code{control} parameter determines 
-the quality of the starting points of the L-BFGS-B algoritm. \cr
+the quality of the starting points of the L-BFGS-B algoritm.
 
 \code{control} is a vector of three tunable parameters used in the deviance optimization algorithm.
 The default values correspond to choosing 2*d clusters (using k-means clustering algorithm)
 based on 80*d best points (smallest negative 2*log-likelihood, refer to \code{\link{GP_deviance}})
-from a 200*d - point random maximin LHD in \eqn{\beta_{0}}{\beta_{0}}.
+from a 200*d - point random maximin LHD in \eqn{\beta_0}. One can change these values to balance 
+the trade-off between computational cost and robustness of likelihood optimization (or prediction accuracy). 
+For details see MacDonald et al. (2013).
 
 The \code{nug_thres} parameter is outlined in Ranjan et al. (2011) and is used in finding 
 the lower bound on the nugget (\eqn{\delta_{lb}}{\delta_{lb}}).
 }
 
 \value{
-an object of class \code{GP} that consists of the parameter estimates (\eqn{\hat{\beta}, \delta_{lb}(\hat{\beta}), \hat{\sigma}^2}{\beta_hat, \delta_{lb}(\beta_hat), \sigma_hat^2}), 
+an object of class \code{GP} that consists of the parameter estimates (\eqn{\hat{\beta}, \delta_{lb}(\hat{\beta}), \hat{\sigma}^2}{beta_hat, delta_lb(beta_hat), sigma_hat^2}), 
 the data (\code{X} and \code{Y}), and the correlation structure used
 }
 
-\references{Ranjan, P., Haynes, R., and Karsten, R. (2011). A Computationally Stable 
+\references{
+MacDonald, K.B., Ranjan, P. and Chipman, H. (2013). GPfit: An R Package for Gaussian 
+Process Model Fitting using a New Optimization Algorithm (arXiv:1305.0759).\cr
+
+Ranjan, P., Haynes, R., and Karsten, R. (2011). A Computationally Stable 
 Approach to Gaussian Process Interpolation of Deterministic Computer Simulation Data, 
 Technometrics, 53(4), 366 - 378.}
 \seealso{
@@ -51,8 +62,9 @@ Technometrics, 53(4), 366 - 378.}
 \code{\link{optim}} for information on the L-BFGS-B procedure; \cr
 \code{\link{GP_deviance}} for computing  the deviance.
 }
-\keyword{Gaussian Process Modeling}
+\keyword{Gaussian Process}
 \author{Blake MacDonald, Hugh Chipman, Pritam Ranjan}
+
 \examples{
 ## 1D Example 1
 n = 5; d = 1; 
@@ -62,22 +74,26 @@ y = sin(10*pi*x)/(2*x) + (x-1)^4;
 return(y)
 }
 set.seed(3);
+library(lhs);
 x = maximinLHS(n,d);
 y = computer_simulator(x);
 GPmodel = GP_fit(x,y);
 print(GPmodel)
 
+
 ## 1D Example 2
 n = 7; d = 1;
 computer_simulator <- function(x) {
-y = log(x+0.1)+sin(5*pi*x);
+y <- log(x+0.1)+sin(5*pi*x);
 return(y)
 }
 set.seed(1);
+library(lhs);
 x = maximinLHS(n,d);
 y = computer_simulator(x);
 GPmodel = GP_fit(x,y);
 print(GPmodel, digits = 4)
+
 
 ## 2D Example: GoldPrice Function
 computer_simulator <- function(x) {
@@ -91,6 +107,7 @@ return(y)
 }
 n = 30; d = 2;
 set.seed(1);
+library(lhs);
 x = maximinLHS(n,d); 
 y = computer_simulator(x);
 GPmodel = GP_fit(x,y);

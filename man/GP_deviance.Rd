@@ -2,16 +2,17 @@
 \alias{GP_deviance}
 \title{Computes the Deviance of a GP model}
 \description{Evaluates the deviance (negative 2*log-likelihood),  
-as defined in Ranjan et al. (2011), but with the reparameterized
-Gaussian correlation as discussed in \code{\link{corr_matrix}}.
+as defined in Ranjan et al. (2011), however the correlation is reparametrized and can be either power exponential or Matern as discussed in \code{\link{corr_matrix}}.
 }
-\usage{GP_deviance(beta, X, Y, nug_thres = 20)}
+\usage{GP_deviance(beta, X, Y, nug_thres = 20,
+	corr = list(type="exponential",power=1.95))}
 \arguments{
   \item{beta}{a (\code{d x 1}) vector of correlation hyper-parameters, as described in 
 \code{\link{corr_matrix}}}
   \item{X}{the (\code{n x d}) design matrix}
   \item{Y}{the (\code{n x 1}) vector of simulator outputs}
-  \item{nug_thres}{A parameter used in computing the nugget. See \code{\link{GP_fit}}.}
+  \item{nug_thres}{a parameter used in computing the nugget. See \code{\link{GP_fit}}.}
+  \item{corr}{a list of parameters for the specifing the correlation to be used. See \code{\link{corr_matrix}}.}
 }
 \value{
 the deviance (negative 2*log-likelihood)
@@ -20,7 +21,6 @@ the deviance (negative 2*log-likelihood)
 Approach to Gaussian Process Interpolation of Deterministic Computer Simulation Data, 
 Technometrics, 53(4), 366 - 378.}
 \keyword{Deviance}
-\keyword{Log Likelihood}
 \author{Blake MacDonald, Hugh Chipman, Pritam Ranjan}
 \seealso{
 \code{\link{corr_matrix}} for computing the correlation matrix; \cr
@@ -35,22 +35,26 @@ y = sin(10*pi*x)/(2*x) + (x-1)^4;
 return(y)
 }
 set.seed(3);
+library(lhs);
 x = maximinLHS(n,d);
 y = computer_simulator(x);
 beta =  rnorm(1);
 GP_deviance(beta,x,y);
 
+
 ## 1D Example 2
 n = 7; d = 1;
 computer_simulator <- function(x) {
-y = log(x+0.1)+sin(5*pi*x);
+y <- log(x+0.1)+sin(5*pi*x);
 return(y)
 }
 set.seed(1);
+library(lhs);
 x = maximinLHS(n,d);
 y = computer_simulator(x);
 beta = rnorm(1);
-GP_deviance(beta,x,y);
+GP_deviance(beta,x,y,corr=list(type="matern",nu=5/2))
+
 
 ## 2D Example: GoldPrice Function
 computer_simulator <- function(x) {
@@ -64,6 +68,7 @@ return(y)
 }
 n = 10; d = 2;
 set.seed(1);
+library(lhs);
 x = maximinLHS(n,d); 
 y = computer_simulator(x);
 beta = rnorm(2);

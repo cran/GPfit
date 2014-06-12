@@ -5,19 +5,21 @@
 \description{Plots the predicted response and mean squared error (MSE) surfaces for
 simulators with 1 and 2 dimensional inputs (i.e. d = 1,2).}
 \usage{
-\method{plot}{GP}(x, range = c(0, 1), resolution = 50, 
-colors = c('black', 'blue', 'red'), line_type = c(1, 1), 
-pch = 1, cex = 2, surf_check = FALSE, 
+\method{plot}{GP}(x, M = 1, range = c(0, 1), resolution = 50, 
+colors = c('black', 'blue', 'red'), line_type = c(1, 2), 
+pch = 20, cex = 1, legends = FALSE, surf_check = FALSE, 
 response = TRUE, \dots)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{x}{a class \code{GP} object estimated by \code{GP_fit}}
-  \item{range}{the input range for plotting} 
+  \item{M}{the number of iterations for use in prediction. See \code{\link{predict.GP}}}
+  \item{range}{the input range for plotting (default set to \code{[0, 1]})} 
   \item{resolution}{the number of points along a coordinate in the specified \code{range}}
-\cr
-For 1 Dimensional Plotting 
-\cr
+\cr 
+
+\bold{For 1 Dimensional Plotting}
+
   \item{colors}{a vector of length 3 assigning \code{colors[1]} to training design points, 
 \code{colors[2]} to model predictions, and \code{colors[3]} to the error bounds}
   \item{line_type}{a vector of length 2 assigning \code{line_type[1]} to model predictions, 
@@ -26,13 +28,14 @@ and \code{line_type[2]} to the error bounds}
 the training design points, see `pch' for possible options in \code{\link{par}}}
   \item{cex}{a parameter defining the size of the \code{pch} used 
 for plotting the training design points, see `cex' for possible options in \code{\link{par}}}
-\cr 
-For 2 Dimensional Plotting 
-\cr
+  \item{legends}{a parameter that controls the inclusion of a \code{\link{legend}}; by default it is `FALSE'}
+\cr \cr
+\bold{For 2 Dimensional Plotting}
+
   \item{surf_check}{logical, switch between 3d surface and 2d level/contour plotting, 
 the default of \code{FALSE} implies level/contour plotting}
   \item{response}{logical, switch between predicted response and error (MSE) plots, the default 
-of \code{TRUE} for plotting the response surface}
+of \code{TRUE} displays the response surface}
   \item{\dots}{additional arguments from \code{\link{wireframe}} or \code{\link{levelplot}}}
 }
 \references{Ranjan, P., Haynes, R., and Karsten, R. (2011). A Computationally Stable 
@@ -54,10 +57,12 @@ y = sin(10*pi*x)/(2*x) + (x-1)^4;
 return(y)
 }
 set.seed(3);
+library(lhs);
 x = maximinLHS(n,d);
 y = computer_simulator(x);
 GPmodel = GP_fit(x,y);
 plot.GP(GPmodel)
+
 
 ## 1D Example 2
 n = 7; d = 1;
@@ -66,11 +71,13 @@ y = log(x+0.1)+sin(5*pi*x);
 return(y)
 }
 set.seed(1);
+library(lhs);
 x = maximinLHS(n,d);
 y = computer_simulator(x);
 GPmodel = GP_fit(x,y);
 ## Plotting with changes from the default line type and characters
 plot.GP(GPmodel, resolution = 100, line_type = c(6,2), pch = 5)
+
 
 ## 2D Example: GoldPrice Function
 computer_simulator <- function(x) {
@@ -84,6 +91,8 @@ return(y)
 }
 n = 30; d = 2;
 set.seed(1);
+library(lhs);
+library(lattice);
 x = maximinLHS(n,d); 
 y = computer_simulator(x);
 GPmodel = GP_fit(x,y);

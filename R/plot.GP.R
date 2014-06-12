@@ -2,8 +2,8 @@
 ##
 ## May 8th, 2012
 
-plot.GP <- function(x,range=c(0,1),resolution=50,colors=c('black','blue','red'),
-	line_type=c(1,1),pch=1,cex=2,surf_check=FALSE,response=TRUE, ...){
+plot.GP <- function(x,M=1,range=c(0,1),resolution=50,colors=c('black','blue','red'),
+	line_type=c(1,2),pch=20,cex=1,legends=FALSE,surf_check=FALSE,response=TRUE,...){
 if (is.GP(x) == FALSE){
 	stop("The object in question is not of class \"GP\" \n")
 }
@@ -17,7 +17,7 @@ if (d>= 3){ stop("can not plot in higher than 2 dimensions.\n")}
 if (d==1){
 	# make the prediction values
 	xvec = matrix(seq(from=range[1],to=range[2],length.out=resolution),ncol=1)
-	GPprediction=predict.GP(x,xvec)
+	GPprediction=predict.GP(x,xvec,M)
 	Y_hat = GPprediction$Y_hat;
 	MSE = GPprediction$MSE;
 
@@ -31,15 +31,17 @@ if (d==1){
 	leg.txt = c(expression("Model Prediction:     " ~ hat(y)(x)), 
 		expression("Uncertanity Bounds: " ~ hat(y)(x) %+-% 2 %*% s(x)),
 		"Design Points")
-	matplot(X,Y,cex=cex,col=colors[1],pch=pch,
-	    ylim=c(min_height,max_height),xlim=c(min_length,max_length),
-	    xlab = "x (Input Variable)", ylab = "Model Prediction")
+	matplot(X,Y,cex=cex[1],col=colors[1],pch=pch[1],
+   		ylim=c(min_height,max_height),xlim=c(min_length,max_length),
+		xlab = "x (Input Variable)", ylab = "Model Prediction")
 	lines(xvec,Y_hat,col=colors[2],lty=line_type[1])			#Predicted Function
 	lines(xvec,Y_hat-2*sqrt(MSE),col=colors[3],lty=line_type[2])	#Errors
 	lines(xvec,Y_hat+2*sqrt(MSE),col=colors[3],lty=line_type[2])	#Errors
-	legend(min_length, max_height, leg.txt, col = c(colors[2], colors[3], colors[1]), 
-		lty = c(line_type[1],line_type[2], -1), pch = c(-1, -1, pch[1]), 
-		pt.cex = cex[1])
+	if(legends==TRUE){
+		legend(min_length, max_height, leg.txt, col = c(colors[2], colors[3], colors[1]), 
+			lty = c(line_type[1],line_type[2], -1), pch = c(-1, -1, pch[1]), 
+			pt.cex = cex[1])
+	}
 }
 
 if (d==2){
@@ -47,7 +49,7 @@ if (d==2){
 	xvector = seq(from=range[1],to=range[2],length.out=resolution)
 	xvec = expand.grid(x = xvector, y=xvector)
 	xvec = as.matrix(xvec)
-	GPprediction = predict.GP(x,xvec)
+	GPprediction = predict.GP(x,xvec,M)
 	Y_hat = GPprediction$Y_hat;
 	MSE = GPprediction$MSE;
 	dim(Y_hat) = c(length(xvector),length(xvector))
