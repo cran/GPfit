@@ -107,7 +107,12 @@ if (corr$type == "matern"){
 		temp = 10^beta
 		temp = matrix(temp,ncol=d,nrow=(length(X)/d),byrow=TRUE)
 		temp = 2*sqrt(nu)*abs(X-as.matrix(rep(1,n))%*%(xn))*(temp)
-		r=(1/(gamma(nu)*2^(nu-1)))*(temp^nu)*besselK(temp,nu)
+		ID = which(temp==0)
+
+		rd=(1/(gamma(nu)*2^(nu-1)))*(temp^nu)*besselK(temp,nu)	
+		rd[ID]=1;
+
+		r = matrix(apply(rd,1,prod),ncol=1)		
 		yhat = (((1-t(r)%*%Sig_invOne)/(t(One)%*%Sig_invOne))%*%t(One)+t(r))%*%Sig_invY;
 		Y_hat[kk] = yhat;
 	
@@ -132,6 +137,7 @@ if (corr$type == "matern"){
 		MSE[kk] = mse*(mse>0);
 	}
 }
+
 prediction = NULL
 
 names = c()
@@ -147,5 +153,6 @@ colnames(full_pred) = names
 prediction$Y_hat = Y_hat
 prediction$MSE = MSE
 prediction$complete_data = full_pred
+
 return(prediction)
 }

@@ -1,12 +1,12 @@
-b9e3c076c769d9a166c46c5ca6681b4a *DESCRIPTION
+e73a6ae9eb282036961d978845d5d109 *DESCRIPTION
 7595818ffe8ac7e7c1fb757654be9b4e *NAMESPACE
 211b0268f68825438e372c8c2a63ab15 *R/GP_deviance.R
 b6e093ea3938dbcd2e6995fe69b3dc0a *R/GP_fit.R
-ca95742c5cb2c9e6a1bebdab1cea9521 *R/corr_matrix.R
+f126c70e6f9fb9a04362148ddb60cbea *R/corr_matrix.R
 f58aa192daf779b21ce3dedd4e9c153c *R/dev_wrapper.R
 537b2b2bd774db402f6b6f145d8583be *R/is.GP.R
 d42a08f865173061e77ff4a720dd7f77 *R/plot.GP.R
-1c32a7190ac6ed71f21cb3160299dd18 *R/predict.GP.R
+a4286fe5bdfbe38f81fa954d61953537 *R/predict.GP.R
 cee0e9be366f32a26ffab82cd7351f0d *R/print.GP.R
 5ca4dbc8711eec7e4eb50d9ab700d323 *R/summary.GP.R
 23716972ce41c407c789dedfe21e19e0 *man/GP_deviance.Rd

@@ -44,7 +44,10 @@ if (corr$type == "matern"){
 	temp = 10^beta
 	temp = matrix(temp,ncol=d,nrow=(length(junk)/d),byrow=TRUE)
 	junk = 2*sqrt(nu)*junk*(temp)
+	ID = which(junk==0)
 	Rtemp = 1/(gamma(nu)*2^(nu-1))*(junk)^nu*besselK(junk,nu)
+	Rtemp[ID]=1;
+
 	Rtemp = apply(Rtemp,1,prod)
 	R[Points] = Rtemp
 	R = R + t(R)
