@@ -1,5 +1,6 @@
-e73a6ae9eb282036961d978845d5d109 *DESCRIPTION
-7595818ffe8ac7e7c1fb757654be9b4e *NAMESPACE
+d92a529e90739472744fa9d91ed10f3d *DESCRIPTION
+fc0901cf976d1c25453ad34a32849173 *NAMESPACE
+7af62a120f968245b889da335a8abad2 *NEWS
 211b0268f68825438e372c8c2a63ab15 *R/GP_deviance.R
 b6e093ea3938dbcd2e6995fe69b3dc0a *R/GP_fit.R
 f126c70e6f9fb9a04362148ddb60cbea *R/corr_matrix.R
@@ -9,10 +10,11 @@ d42a08f865173061e77ff4a720dd7f77 *R/plot.GP.R
 a4286fe5bdfbe38f81fa954d61953537 *R/predict.GP.R
 cee0e9be366f32a26ffab82cd7351f0d *R/print.GP.R
 5ca4dbc8711eec7e4eb50d9ab700d323 *R/summary.GP.R
+09408aa7ca45c58af40c3f120284f417 *inst/CITATION
 23716972ce41c407c789dedfe21e19e0 *man/GP_deviance.Rd
-ca4c45c434d954789407ba1108ce2b8d *man/GP_fit.Rd
-4c1afa75ef025a24fe72e52010fdbe82 *man/GPfit-package.Rd
-5bd4740299ba7fe20fab42ba9af1e2fe *man/corr_matrix.Rd
+d351cf418e0f1a9a9c452bd27e4072cd *man/GP_fit.Rd
+76ea3190e426d79f145ad3fc05342d39 *man/GPfit-package.Rd
+3c98ec2f8da5737323f2fd86a927b185 *man/corr_matrix.Rd
 a3338cf7fab77a425fc6cfc07cd4e777 *man/plot.GP.Rd
 737fe6d9f0e694a799506e4c6d61dd13 *man/predict.GP.Rd
 c3919a38df7aa7d9d97e02decba3b383 *man/print.GP.Rd

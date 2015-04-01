@@ -11,8 +11,9 @@ correlation hyper-parameters.}
   \item{corr}{a list that specifies the \code{type} of correlation function along with 
 the smoothness parameter. The default corresponds to power exponential correlation with 
 smoothness parameter "\code{power=1.95}". One can 
-instead use \code{corr=list(type = "exponential", power=pk)} with \eqn{1 \le pk \le 2} 
-or \code{corr=list(type = "matern", nu=(2*k+1)/2)}, where \eqn{k \in \{0,1,2,...\}}}
+specify a different power (between 1.0 and 2.0) for the power exponential,
+or use the Matern correlation function, specified as 
+\code{corr=list(type = "matern", nu=(2*k+1)/2)}, where \eqn{k \in \{0,1,2,...\}}}
 }
 
 \value{
@@ -29,17 +30,22 @@ R_{ij} = \prod exp(-10^\beta*|x_{i}-x_{j}|^{power})}. \cr
 The Matern correlation function given by Santner, Williams, and Notz (2003) is
 
 \eqn{R_{ij} = \prod_{k=1}^{d} \frac{1}{\Gamma(\nu)2^{\nu-1}}(2\sqrt{\nu}|x_{ik} - 
-x_{jk}|\beta_k)^\nu \kappa_{\nu}(2\sqrt{\nu}|x_{ik} - x_{jk}|\beta_k)}{R_{ij} = 
+x_{jk}|10^{\beta_k})^\nu \kappa_{\nu}(2\sqrt{\nu}|x_{ik} -
+x_{jk}|10^{\beta_k})}{R_{ij} = 
 \prod \frac{1}{\Gamma(\nu)2^{\nu-1}}(2\sqrt{\nu}|x_{ik} - 
-x_{jk}|\beta)^\nu \kappa_{\nu}(2\sqrt{\nu}|x_{ik} - x_{jk}|\beta)}, 
+x_{jk}|10^{\beta_k})^\nu \kappa_{\nu}(2\sqrt{\nu}|x_{ik} -
+x_{jk}|10^{\beta_k})}, 
 
 where
 \eqn{\kappa_{\nu}}{\kappa_{\nu}} is the modified Bessel function of order \eqn{\nu}{\nu}.\cr
 }
 
 \references{
-MacDonald, K.B., Ranjan, P. and Chipman, H. (2013). GPfit: An R Package for Gaussian 
-Process Model Fitting using a New Optimization Algorithm (arXiv:1305.0759).\cr
+MacDonald, K.B., Ranjan, P. and Chipman, H. (2015).
+GPfit: An R Package for
+Fitting a Gaussian Process Model to Deterministic Simulator Outputs.  
+Journal of Statistical Software, 64(12), 1-23.
+\url{http://www.jstatsoft.org/v64/i12/} \cr
 
 Ranjan, P., Haynes, R., and Karsten, R. (2011). A Computationally Stable 
 Approach to Gaussian Process Interpolation of Deterministic Computer Simulation Data, 
@@ -52,7 +58,8 @@ computer experiments, Springer Verlag, New York.
 \note{
 Both Matern and power exponential correlation functions use the new \eqn{\beta} 
 parametrization of hyper-parameters given by \eqn{\theta_k = 10^{\beta_k}} for 
-easier likelihood optimization (see MacDonald et al. (2013)).
+easier likelihood optimization.  That is, \code{beta} is a log scale
+parameter (see MacDonald et al. (2015)).  
 }
 
 \keyword{Power Exponential Correlation}
