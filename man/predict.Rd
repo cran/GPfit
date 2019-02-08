@@ -115,7 +115,7 @@ Deterministic Computer Simulation Data, Technometrics, 53(4), 366 - 378.
 }
 \seealso{
 \code{\link{GP_fit}} for estimating the parameters of the GP model;
-\cr \code{\link{plot.GP}} for plotting the predicted and error surfaces.
+\cr \code{\link{plot}} for plotting the predicted and error surfaces.
 }
 \author{
 Blake MacDonald, Hugh Chipman, Pritam Ranjan

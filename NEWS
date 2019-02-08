@@ -1,3 +1,11 @@
+GPfit v1.0-8 (Release date: 2019-02-07)
+==============
+
+Changes:
+
+* Removed reverse dependency from test suite.
+* Reverted export of plot.GP().
+
 GPfit v1.0-6 (Release date: 2019-01-15)
 ==============
 

@@ -1,9 +1,9 @@
 
-#' Plotting GP model fits
+#' @name plot
+#' @title Plotting GP model fits
 #' 
-#' Plots the predicted response and mean squared error (MSE) surfaces for
+#' @description Plots the predicted response and mean squared error (MSE) surfaces for
 #' simulators with 1 and 2 dimensional inputs (i.e. d = 1,2).
-#' 
 #' 
 #' @param x a class \code{GP} object estimated by \code{GP_fit}
 #' @param M the number of iterations for use in prediction. See
@@ -55,7 +55,6 @@
 #' GPmodel <- GP_fit(x,y)
 #' plot(GPmodel)
 #' 
-#' 
 #' ## 1D Example 2
 #' n <- 7
 #' d <- 1
@@ -98,10 +97,22 @@
 #' ## Plotting the Error Surface with color
 #' plot(GPmodel, surf_check = TRUE, response = FALSE, shade = TRUE)
 #' 
-#' @export
-#' @method plot GP
 #' @importFrom lattice wireframe levelplot
 #' @importFrom graphics legend lines matplot plot
+
+NULL
+
+#' @name plot.GP
+#' @noRd
+#' @export
+
+NULL
+
+#' @describeIn plot The \code{plot} method 
+#' creates a \pkg{graphics} plot for 1-D fits and
+#' \pkg{lattice} plot for 2-D fits.
+#' @export
+#' @method plot GP
 
 plot.GP <- function(
     x,

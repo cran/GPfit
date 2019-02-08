@@ -144,8 +144,8 @@ Approach to Gaussian Process Interpolation of Deterministic Computer
 Simulation Data, Technometrics, 53(4), 366 - 378.
 }
 \seealso{
-\code{\link{plot.GP}} for plotting in 1 and 2 dimensions; \cr
-\code{\link{predict.GP}} for predicting the response and error surfaces; \cr
+\code{\link{plot}} for plotting in 1 and 2 dimensions; \cr
+\code{\link{predict}} for predicting the response and error surfaces; \cr
 \code{\link{optim}} for information on the L-BFGS-B procedure; \cr
 \code{\link{GP_deviance}} for computing the deviance.
 }

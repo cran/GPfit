@@ -28,7 +28,7 @@
 #' (\code{complete_data}) containing \code{xnew}, \code{Y_hat}, and \code{MSE}
 #' @author Blake MacDonald, Hugh Chipman, Pritam Ranjan
 #' @seealso \code{\link{GP_fit}} for estimating the parameters of the GP model;
-#' \cr \code{\link{plot.GP}} for plotting the predicted and error surfaces.
+#' \cr \code{\link{plot}} for plotting the predicted and error surfaces.
 #' @references Ranjan, P., Haynes, R., and Karsten, R. (2011). A
 #' Computationally Stable Approach to Gaussian Process Interpolation of
 #' Deterministic Computer Simulation Data, Technometrics, 53(4), 366 - 378.

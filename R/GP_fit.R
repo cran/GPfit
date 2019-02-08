@@ -63,8 +63,8 @@
 #' (\code{X} and \code{Y}), and a specification of the correlation structure
 #' used.
 #' @author Blake MacDonald, Hugh Chipman, Pritam Ranjan
-#' @seealso \code{\link{plot.GP}} for plotting in 1 and 2 dimensions; \cr
-#' \code{\link{predict.GP}} for predicting the response and error surfaces; \cr
+#' @seealso \code{\link{plot}} for plotting in 1 and 2 dimensions; \cr
+#' \code{\link{predict}} for predicting the response and error surfaces; \cr
 #' \code{\link{optim}} for information on the L-BFGS-B procedure; \cr
 #' \code{\link{GP_deviance}} for computing the deviance.
 #' @references MacDonald, K.B., Ranjan, P. and Chipman, H. (2015). GPfit: An R
